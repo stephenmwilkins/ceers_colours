@@ -92,7 +92,10 @@ def run_eazy(model):
         pz.create_input_catalogue_from_HDF5(hf)
         pz.run()
 
-        del hf['pz/eazy/'+template_set]
+        try:
+            del hf['pz/eazy/'+template_set]
+        except:
+            print('nothing to delete')
 
         eazy.append_EAZY_output_to_HDF5(
             f'EAZY/outputs/{id}', hf, read_pz=False, read_template_norm=False, get_integrals=True, group_name='pz/eazy/'+template_set)
