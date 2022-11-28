@@ -10,11 +10,14 @@ import h5py
 from astropy.table import Table
 from scipy.stats import binned_statistic
 
-from flare_lf.utilities import m_to_fnu
 from synthesizer.filters import SVOFilterCollection
 from flags.pz import eazy
 
 np.random.seed(42)
+
+
+def fnu_to_m(fnu):
+    return -2.5*np.log10(fnu/1E9) + 8.9  # -- assumes flux in nJy
 
 
 def create_test_observations(N=10):
@@ -75,13 +78,13 @@ def run_eazy(model):
         template_set = 'Larson22'
 
         # --- initialise EAZY fitter
-        # pz = eazy.Eazy(id, filter_collection, create_POFZ_FILE=True)
-        #
-        # pz.params['TEMPLATES_FILE'] = f'templates/{template_set}.spectra.param'
-        #
-        # # --- create input catalogue from HDF5 object
-        # pz.create_input_catalogue_from_HDF5(hf)
-        # pz.run()
+        pz = eazy.Eazy(id, filter_collection, create_POFZ_FILE=True)
+
+        pz.params['TEMPLATES_FILE'] = f'templates/{template_set}.spectra.param'
+
+        # --- create input catalogue from HDF5 object
+        pz.create_input_catalogue_from_HDF5(hf)
+        pz.run()
 
         del hf['pz/eazy/'+template_set]
 
