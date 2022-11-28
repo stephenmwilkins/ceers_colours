@@ -10,7 +10,6 @@ import h5py
 from astropy.table import Table
 from scipy.stats import binned_statistic
 
-from flare_lf.lightcones import Lightcone
 from flare_lf.utilities import m_to_fnu
 from synthesizer.filters import SVOFilterCollection
 from flags.pz import eazy
@@ -18,7 +17,32 @@ from flags.pz import eazy
 np.random.seed(42)
 
 
+def create_test_observations(N=10):
+
+    from flare_lf.lightcones import Lightcone
+
+    lightcone = Lightcone('jaguar')
+
+    m_ref = lightcone.m[f_ref]
+
+    z = lightcone.z
+
+    s = (z > 4) & (z < 15) & (m_ref < 28.5) & (m_ref > 22)
+
+    with h5py.File(f'data/test.h5', 'w') as hf:
+
+        hf[f'input/z'] = lightcone.z[s][:N]
+
+        for f in filters:
+
+            hf[f'input/{f}/flux'] = lightcone.fnu[f][s][:N]
+            hf[f'obs/{f}/flux'] = lightcone.fnu[f][s][:N] + depths_fnu[f]*np.random.normal(size=N)
+            hf[f'obs/{f}/flux_err'] = depths_fnu[f] * np.ones(N)
+
+
 def create_synthetic_observations(model):
+
+    from flare_lf.lightcones import Lightcone
 
     lightcone = Lightcone(model)
 
@@ -51,16 +75,20 @@ def run_eazy(model):
         template_set = 'Larson22'
 
         # --- initialise EAZY fitter
-        pz = eazy.Eazy(id, filter_collection)
+        # pz = eazy.Eazy(id, filter_collection, create_POFZ_FILE=True)
+        #
+        # pz.params['TEMPLATES_FILE'] = f'templates/{template_set}.spectra.param'
+        #
+        # # --- create input catalogue from HDF5 object
+        # pz.create_input_catalogue_from_HDF5(hf)
+        # pz.run()
 
-        pz.params['TEMPLATES_FILE'] = f'templates/{template_set}.spectra.param'
-
-        # --- create input catalogue from HDF5 object
-        pz.create_input_catalogue_from_HDF5(hf)
-        pz.run()
+        del hf['pz/eazy/'+template_set]
 
         eazy.append_EAZY_output_to_HDF5(
-            f'EAZY/outputs/{id}', hf, read_pz=False, read_template_norm=False, group_name='pz/eazy/'+template)
+            f'EAZY/outputs/{id}', hf, read_pz=False, read_template_norm=False, get_integrals=True, group_name='pz/eazy/'+template_set)
+
+        # --- need to extract P(z) limits.
 
 
 if __name__ == "__main__":
@@ -68,7 +96,7 @@ if __name__ == "__main__":
     f_ref = 'JWST/NIRCam.F277W'
 
     # models = ['flares', 'scsam', 'jaguar', 'dream']
-    # models = ['scsam', 'jaguar', 'dream']
+    models = ['scsam', 'jaguar', 'dream', 'flares']
 
     filters = []
     filters += [f'HST/ACS_WFC.{f}' for f in ['F606W', 'F814W']]
@@ -97,9 +125,10 @@ if __name__ == "__main__":
     depths_fnu = {f: m_to_fnu(depths_m[f])/5. for f in filters}  # 1\sigma
 
     if len(sys.argv) > 1:
-        model = sys.argv[1]
+        model = models[int(sys.argv[1])-1]
     else:
-        model = 'jaguar'
+        model = 'test'
 
+    # create_test_observations()
     # create_synthetic_observations(model)
     run_eazy(model)
