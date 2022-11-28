@@ -108,7 +108,7 @@ if __name__ == "__main__":
     f_ref = 'JWST/NIRCam.F277W'
 
     # models = ['flares', 'scsam', 'jaguar', 'dream']
-    models = ['scsam', 'jaguar', 'dream', 'flares']
+    models = ['test', 'scsam', 'jaguar', 'dream', 'flares']
 
     filters = []
     filters += [f'HST/ACS_WFC.{f}' for f in ['F606W', 'F814W']]
@@ -141,6 +141,7 @@ if __name__ == "__main__":
     else:
         model = 'test'
 
+    print(model)
     # create_test_observations()
     # create_synthetic_observations(model)
     run_eazy(model)

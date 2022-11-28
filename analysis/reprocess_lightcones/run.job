@@ -28,4 +28,4 @@
 # needs to be copied, and then execute the program
 ######################################################################
 
-create_mock_observations.py -r $SGE_TASK_ID
+python create_mock_observations.py $SGE_TASK_ID
