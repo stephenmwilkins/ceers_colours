@@ -17,7 +17,13 @@ np.random.seed(42)
 
 
 def fnu_to_m(fnu):
+    """ Convert fnu/nJy to AB magnitude """
     return -2.5*np.log10(fnu/1E9) + 8.9  # -- assumes flux in nJy
+
+
+def m_to_fnu(m):
+    """ Convert AB magnitude to fnu """
+    return 1E9 * 10**(-0.4*(m - 8.9))  # -- flux returned nJy
 
 
 def create_test_observations(N=10):
