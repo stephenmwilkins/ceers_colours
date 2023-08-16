@@ -71,6 +71,9 @@ def create_synthetic_observations(model):
         for f in filters:
 
             hf[f'input/{f}/flux'] = lightcone.fnu[f][s]
+
+            # need to modify this to allow flux dependent noise.
+
             hf[f'obs/{f}/flux'] = lightcone.fnu[f][s] + depths_fnu[f]*np.random.normal(size=N)
             hf[f'obs/{f}/flux_err'] = depths_fnu[f] * np.ones(N)
 
