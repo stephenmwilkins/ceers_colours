@@ -83,7 +83,8 @@ class Lightcone:
                 self.za = self.z
 
             # add pz
-
+            hf.visit(print)
+            self.pz = hf['pz/eazy/Larson22/z_a'][()]
        
 
        
