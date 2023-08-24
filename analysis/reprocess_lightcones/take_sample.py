@@ -15,7 +15,7 @@ sys.path.append('../')
 
 if __name__ == "__main__":
 
-    N = 1000
+    N = 100
 
     
     noise_model = 'basic' # apply uniform noise using stated depths of the images 
