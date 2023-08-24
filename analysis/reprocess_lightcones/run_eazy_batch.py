@@ -17,7 +17,8 @@ if __name__ == "__main__":
 
     # define path to eazy
     path_to_eazy = '/Users/sw376/Dropbox/Research/software/eazy-photoz'
-    
+    path_to_eazy = '/its/home/sw376/flare/software/eazy-photoz'
+
     # define template set
     template_set = 'Larson22'
 
@@ -55,7 +56,7 @@ if __name__ == "__main__":
     filter_collection = FilterCollection(filters, new_lam = np.arange(1000.,100000.,1000.)) # new_lam doesn't do anything here since we use the original wavelength grid
 
     # initialise EAZY fitter
-    pz = eazy.Eazy(model, filter_collection, params = eazy_params, path_to_eazy = path_to_eazy, create_POFZ_FILE=False)
+    pz = eazy.Eazy(model+f'_{i}', filter_collection, params = eazy_params, path_to_eazy = path_to_eazy, create_POFZ_FILE=False)
 
     # create input catalogue from HDF5 object
     pz.create_input_catalogue_from_dict(flux_dict, err_dict)
