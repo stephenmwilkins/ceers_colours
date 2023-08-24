@@ -43,7 +43,7 @@ models = ['scsam','jaguar', 'dream']
 noise_model = 'no'
 noise_model = 'basic'
 
-models = ['scsam','scsam_10000']
+models = ['scsam_1000']
 
 
 lc = {model: lightcones.Lightcone(model, noise_model) for model in models}
