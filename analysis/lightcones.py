@@ -25,7 +25,7 @@ class Lightcone:
 
     def __init__(self, model):
 
-
+        self.filters = filters
         print('-'*30)
         print(model)
 
@@ -38,6 +38,7 @@ class Lightcone:
             self.data = h5py.File(f'{simulation_data_dir}/flares/colours/DustModelI.h5','r')
 
             filter_dict = {}
+            # filter_dict = filter_dict | {f'HST/WFC3_IR.{f}': f'HST.WCF3.{f}' for f in ['F606W', 'F814W']}
             # filter_dict = filter_dict | {f'HST/WFC3_IR.{f}': f'HST.WCF3.{f}' for f in ['F105W', 'F125W', 'F160W']}
             filter_dict = filter_dict | {f'JWST/NIRCam.{f}': f'Webb.NIRCAM.{f}' for f in ['F115W', 'F150W', 'F200W','F277W','F356W','F410M','F444W']}
 
@@ -51,6 +52,7 @@ class Lightcone:
                     self.m[filter] = fnu_to_m(self.fnu[filter])
 
             self.z = self.data['z'][()]
+            self.N = len(self.z)
 
 
         elif model == 'scsam':
@@ -73,9 +75,10 @@ class Lightcone:
                 if filter in filter_dict.keys():
                     f = filter_dict[filter]
                     self.m[filter] = self.data[f][()]
-                    self.fnu[filter] = m_to_fnu(self.m[filter])
+                    self.fnu[filter] = m_to_fnu(self.m[filter]).to('nJy').value
 
             self.z = self.data['redshift'][()]
+            self.N = len(self.z)
 
 
         elif model == 'jaguar':
@@ -100,6 +103,7 @@ class Lightcone:
                 self.fnu[filter] = self.data[f].data
                 self.m[filter] = -2.5*np.log10(self.fnu[filter]/1E9) + 8.9
             self.z = self.data['redshift'].data
+            self.N = len(self.z)
 
         elif model == 'dream':
 
@@ -118,9 +122,10 @@ class Lightcone:
             for filter in filters:
                 f = filter_dict[filter]
                 self.m[filter] = self.data[f][()]
-                self.fnu[filter] = m_to_fnu(self.m[filter])
+                self.fnu[filter] = m_to_fnu(self.m[filter]).to('nJy').value
 
             self.z = self.data['redshift'][()]
+            self.N = len(self.z)
 
 
         else:
