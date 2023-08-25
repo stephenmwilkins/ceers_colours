@@ -32,21 +32,22 @@ if __name__ == "__main__":
 
         for i in range(jobs):
 
-            print(i)
+            with open(f'eazy/outputs/{model}_{i}.zout','r') as f:
+                n = len(f.readlines())
+                if n==(N+2):
 
-            try:
-                # open zout file
-                zout = ascii.read(f'eazy/output/{model}_{i}.zout')
+                    zout = ascii.read(f'eazy/output/{model}_{i}.zout')
 
-                start = N*i
-                end = N*(i+1)
-                if end > Ntot: end = Ntot
+                    start = N*i
+                    end = N*(i+1)
+                    if end > Ntot: end = Ntot
 
-                for ds in eazy_datasets:
-                    hf[f'pz/eazy/{ds}'][start:end] = zout[ds]
-            except:
-                print(f'failed for {i}')
+                    for ds in eazy_datasets:
+                        hf[f'pz/eazy/{ds}'][start:end] = zout[ds]
 
+                else:
+
+                    print('failed')
 
 
 
