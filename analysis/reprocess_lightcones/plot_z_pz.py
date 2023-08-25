@@ -12,8 +12,10 @@ sys.path.append('../')
 
 import rlightcones as lightcones
 
-model = 'scsam'
-noise_model = 'basic'
+model = sys.argv[1]
+noise_model = sys.argv[2]
+
+
 lightcone = lightcones.Lightcone(model, noise_model)
 
 cmap = cmr.torch_r
