@@ -1,4 +1,5 @@
 
+import os
 import numpy as np
 import sys
 import h5py
@@ -29,7 +30,7 @@ if __name__ == "__main__":
                 n = len(f.readlines())
                 if n<N:
                     print(f'{i} failed with {n} lines')
-
+                    os.system(f'qsub -t {i+1} run.job')
            
             
 
