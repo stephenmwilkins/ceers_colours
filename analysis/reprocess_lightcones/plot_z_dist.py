@@ -16,6 +16,8 @@ model = 'scsam'
 noise_model = 'basic'
 lightcone = lightcones.Lightcone(model, noise_model)
 
+s = lightcone.get_selection()
+
 cmap = cmr.torch_r
 
 plt.style.use('http://stephenwilkins.co.uk/matplotlibrc.txt')
@@ -25,26 +27,25 @@ height = 0.8
 bottom = 0.15
 width = 0.8
 
-fig = plt.figure(figsize = (3.5, 3.5))
+fig = plt.figure(figsize = (3.5, 2.5))
 
 ax = fig.add_axes((left, bottom, width, height))
 
-ax.axhline(5., c='k', ls=':', lw=1, alpha=0.5)
-
 zlim = [0,10]
 
-ax.plot(zlim,zlim,lw=2, c='k',alpha=0.1)
-# ax.scatter(lightcone.z, lightcone.pz, s=5)
-# ax.hexbin(lightcone.z, lightcone.pz, gridsize=(100,100))
-ax.hist2d(lightcone.z, lightcone.pz, bins=(100,100), range = [[0.,10.],[0.,10.]], norm = 'log', cmap = cmap)
 
+# true
+ax.hist(lightcone.z[s], bins = 100, range = [0,10.], log=True, histtype = 'stepfilled', color='k', alpha = 0.3, label = r'$\rm true\ z$')
 
+# photo-z
+ax.hist(lightcone.pz[s], bins = 100, range = [0,10.], log=True, histtype = 'step', color='k', label = r'$\rm photo-z$')
+
+ax.legend(fontsize=8)
 ax.set_xlim(zlim)
-ax.set_ylim(zlim)
 
 ax.set_xlabel(r'$\rm z $')
-ax.set_ylabel(r'$\rm z_{a}$')
+ax.set_ylabel(r'$\rm N$')
 
-fig.savefig(f'figs/z_pz_{model}.pdf')
+fig.savefig(f'figs/z_dist_{model}.pdf')
 
 fig.clf()

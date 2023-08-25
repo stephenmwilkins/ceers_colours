@@ -10,10 +10,11 @@ import sys
 
 if __name__ == "__main__":
 
-    jobs = 99 # actually need to run jobs + 1
-
     model = sys.argv[1] # model name (e.g. scsam_basic)
-    i = int(sys.argv[2])-1 # iteration
+
+    # jobs = 99 # actually need to run jobs + 1
+    jobs = int(sys.argv[2]) - 1
+    i = int(sys.argv[3])-1 # iteration
 
     # define path to eazy
     path_to_eazy = '/Users/sw376/Dropbox/Research/software/eazy-photoz'
