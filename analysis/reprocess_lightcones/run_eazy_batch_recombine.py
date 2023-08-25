@@ -2,7 +2,7 @@
 import numpy as np
 import sys
 import h5py
-
+from astropy.io import ascii
 
 
 if __name__ == "__main__":
@@ -30,6 +30,8 @@ if __name__ == "__main__":
             hf[f'pz/eazy/{ds}'] = np.empty(Ntot)
 
         for i in range(jobs):
+
+            print(i)
 
             # open zout file
             zout = ascii.read(f'eazy/output/{model}_{i}.zout')
