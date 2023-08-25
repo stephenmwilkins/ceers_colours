@@ -79,14 +79,25 @@ class Lightcone:
             self.z = hf['z'][()] # input redshift
             self.N = len(self.z)
 
+            # if no noise the photo-z is the true z
             if noise_model == 'no':
-                self.za = self.z
-
-            # add pz
-            hf.visit(print)
-            self.pz = hf['pz/eazy/Larson22/z_a'][()]
+                self.pz = self.z
+            else:
+                # add pz
+                hf.visit(print)
+                self.pz = hf['pz/eazy/z_a'][()]
        
+    def get_selection(self):
 
+        # exclude sources with photometric redshifts of 0.0 as that probably means eazy failed
+        s = self.pz != 0.0
+
+        # flux cut
+        s = s & (self.fnu['JWST/NIRCam.F277W']>50.)
+
+        
+
+        return s
        
 
 
