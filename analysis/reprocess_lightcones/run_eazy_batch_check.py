@@ -20,10 +20,15 @@ if __name__ == "__main__":
 
         N = int(Ntot/jobs)
 
+        print(N)
+
         for i in range(jobs):
 
             with open(f'eazy/outputs/{model}_{i}.zout','r') as f:
-                print(i, len(f.readlines()))
+
+                n = len(f.readlines())
+                if n<N:
+                    print(f'{i} failed with {n} lines')
 
            
             

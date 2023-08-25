@@ -19,6 +19,7 @@ if __name__ == "__main__":
         Ntot = len(hf[f'fnu/{filters[0]}'])
 
         N = int(Ntot/jobs)
+        print(N)
 
         # set up output datasets
         eazy_datasets = ['z_a','z_m1','chi_a','l68','u68','l95','u95','l99','u99','q_z','z_peak','peak_prob','z_mc']
