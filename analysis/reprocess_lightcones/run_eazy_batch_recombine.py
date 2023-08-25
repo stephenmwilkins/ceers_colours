@@ -2,10 +2,7 @@
 import numpy as np
 import sys
 import h5py
-import yaml
-from synthesizer.filters import FilterCollection
-from flags.pz import eazy
-import sys
+
 
 
 if __name__ == "__main__":
