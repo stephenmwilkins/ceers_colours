@@ -7,9 +7,15 @@ from astropy.io import ascii
 
 if __name__ == "__main__":
 
-    jobs = 99 # actually need to run jobs + 1
-
     model = sys.argv[1] # model name (e.g. scsam_basic)
+
+    if model.split('_')[0] == 'scsam':
+        jobs = 99
+    if model.split('_')[0] == 'jaguar':
+        jobs = 99
+    if model.split('_')[0] == 'dream':
+        jobs = 499
+    
     
     with h5py.File(f'data/{model}.h5', 'a') as hf:
 
