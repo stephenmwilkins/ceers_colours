@@ -34,7 +34,7 @@ if __name__ == "__main__":
             print(i)
 
             # open zout file
-            zout = ascii.read(f'eazy/output/{model}_{i}.zout')
+            zout = ascii.read(f'eazy/outputs/{model}_{i}.zout')
 
             start = N*i
             end = N*(i+1)
