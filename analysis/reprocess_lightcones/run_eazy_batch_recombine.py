@@ -36,7 +36,7 @@ if __name__ == "__main__":
                 n = len(f.readlines())
                 if n==(N+2):
 
-                    zout = ascii.read(f'eazy/output/{model}_{i}.zout')
+                    zout = ascii.read(f'eazy/outputs/{model}_{i}.zout')
 
                     start = N*i
                     end = N*(i+1)
