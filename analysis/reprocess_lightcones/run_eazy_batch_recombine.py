@@ -33,16 +33,18 @@ if __name__ == "__main__":
 
             print(i)
 
-            # open zout file
-            zout = ascii.read(f'eazy/outputs/{model}_{i}.zout')
+            try:
+                # open zout file
+                zout = ascii.read(f'eazy/output/{model}_{i}.zout')
 
-            start = N*i
-            end = N*(i+1)
-            if end > Ntot: end = Ntot
+                start = N*i
+                end = N*(i+1)
+                if end > Ntot: end = Ntot
 
-            for ds in eazy_datasets:
-                hf[f'pz/eazy/{ds}'][start:end] = zout[ds]
-            
+                for ds in eazy_datasets:
+                    hf[f'pz/eazy/{ds}'][start:end] = zout[ds]
+            except:
+                print(f'failed for {i}')
 
 
 

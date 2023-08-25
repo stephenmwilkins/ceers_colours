@@ -1,0 +1,1 @@
+rsync -avzh --ignore-existing aapollo://its/home/sw376/flare/projects/ceers_colours/anaylsis/reprocess_lightcones/data/* .
