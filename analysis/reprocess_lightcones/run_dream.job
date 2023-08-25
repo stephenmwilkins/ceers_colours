@@ -29,4 +29,4 @@
 ######################################################################
 
 source ../../venv/bin/activate
-python run_eazy_batch.py dream_basic 500 $SGE_TASK_ID
+python run_eazy_batch.py dream_linear 500 $SGE_TASK_ID

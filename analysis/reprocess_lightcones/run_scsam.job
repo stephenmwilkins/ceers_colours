@@ -29,4 +29,4 @@
 ######################################################################
 
 source ../../venv/bin/activate
-python run_eazy_batch.py scsam_basic 100 $SGE_TASK_ID
+python run_eazy_batch.py scsam_linear 100 $SGE_TASK_ID
