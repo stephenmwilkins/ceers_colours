@@ -79,8 +79,9 @@ for i, ((f1, f2), ax, color) in enumerate(zip(colours, axes, colour_colours)):
 
         lightcone = lc[model]
 
-        s = (lightcone.fnu['JWST/NIRCam.F200W'] > 50) 
-        print(np.sum(s))
+        # select galaxies the same as the observations
+        s = lightcone.get_selection()
+       
 
         if f1 in lightcone.m.keys() and f2 in lightcone.m.keys():
 

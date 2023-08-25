@@ -61,7 +61,10 @@ for ax, redshift, colour in zip(axes.flatten(), redshifts, colours):
 
         lightcone = lc[model]
 
-        s = (lightcone.fnu['JWST/NIRCam.F277W'] > 50) & (np.fabs(redshift-lightcone.z) < 0.5)
+        # select galaxies the same as the observations
+        s = lightcone.get_selection()
+
+        s = s & (np.fabs(redshift-lightcone.z) < 0.5)
         
         N, _ = np.histogram(lightcone.m[ref_filter][s], bins=m_bin_edges)
 

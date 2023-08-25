@@ -39,10 +39,10 @@ fl = {f: f.split('.')[-1] for f in filters}
 
 
 models = ['flares', 'scsam', 'jaguar', 'dream']
-models = ['scsam','jaguar', 'dream']
+models = ['scsam']
 
 
-noise_models = ['no','basic']
+noise_models = ['no', 'basic']
 
 
 for model in models:
@@ -63,21 +63,23 @@ for model in models:
 
             lightcone = lc[noise_model]
 
-            s = (lightcone.fnu['JWST/NIRCam.F200W'] > 50) 
-            print(np.sum(s))
+            # select galaxies the same as the observations
+            s = lightcone.get_selection()
+
+            z = lightcone.pz
 
             if f1 in lightcone.m.keys() and f2 in lightcone.m.keys():
 
                 c = lightcone.m[f1] - lightcone.m[f2]
 
-                med, _, _ = binned_statistic(lightcone.z[s], c[s], bins=bin_edges, statistic='median')
-                mean, _, _ = binned_statistic(lightcone.z[s], c[s], bins=bin_edges, statistic='mean')
-                N, _ = np.histogram(lightcone.z[s], bins=bin_edges)
+                med, _, _ = binned_statistic(z[s], c[s], bins=bin_edges, statistic='median')
+                mean, _, _ = binned_statistic(z[s], c[s], bins=bin_edges, statistic='mean')
+                N, _ = np.histogram(z, bins=bin_edges)
 
-                ax.plot(bin_centres, med, color=color, lw=1, ls=ls, alpha=0.7, label=rf'$\rm {lightcone.name} $')
+                ax.plot(bin_centres, med, color=color, lw=1, ls=ls, alpha=0.7, label=rf'$\rm {noise_model}\ noise $')
 
         if i == 0:
-            ax.legend(fontsize=7, labelspacing=0.1)
+            ax.legend(fontsize=7, labelspacing=0.1, title=rf'$\rm {lightcone.name}$')
 
         ax.set_xlim(z_range)
         ax.set_ylim(-0.99, 1.49)

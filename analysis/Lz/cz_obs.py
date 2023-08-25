@@ -39,7 +39,7 @@ colour_colours = cm.rainbow(np.linspace(0, 1, len(filters)-1))
 
 # redshift histogram
 ax = axes[0]
-ax.hist(obs.z, bins = bin_edges, log = False, alpha = 0.2, color = 'k')
+ax.hist(obs.z, bins = bin_edges, log = True, alpha = 0.2, color = 'k')
 ax.set_ylabel(r'$\rm N$') # colour notation is e.g. Y-J
 ax.set_xlim(z_range)
 
