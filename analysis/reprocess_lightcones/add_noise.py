@@ -18,12 +18,15 @@ if __name__ == "__main__":
 
     noise_model = 'no' # no noise 
     # noise_model = 'flat' # apply flat noise (i.e. same in every band)
-    # noise_model = 'basic' # apply uniform noise using stated depths of the images 
+    noise_model = 'basic' # apply uniform noise using stated depths of the images 
     noise_model = 'linear' # apply noise as a linear function of the log10(flux)
 
     models = ['flares','jaguar','dream', 'scsam']
     models = ['scsam','jaguar','dream']
     models = ['jaguar','dream']
+    models = ['forecast-tng100']
+    models = ['scsam']
+
 
     for model in models:
 
@@ -37,9 +40,13 @@ if __name__ == "__main__":
 
         limit_filter, limit_flux = 'JWST/NIRCam.F277W', 25 # nJy
 
+        print(np.min(lightcone.fnu[limit_filter]), np.max(lightcone.fnu[limit_filter]))
+
         s = lightcone.fnu[limit_filter] > limit_flux
 
         N = np.sum(s)
+
+        print(np.min(lightcone.z), np.max(lightcone.z))
 
         print('Number selectable:', N)
 
